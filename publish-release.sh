@@ -13,10 +13,10 @@ fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 CRATES=( \
-  "prost-derive" \
-  "prost" \
-  "prost-types" \
-  "prost-build" \
+  "prost-patched-derive" \
+  "prost-patched" \
+  "prost-patched-types" \
+  "prost-patched-build" \
 )
 
 for CRATE in "${CRATES[@]}"; do
