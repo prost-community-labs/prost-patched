@@ -9,6 +9,7 @@
 This crate is directly based upon the `prost` crate, maintained by `tokio`.
 `prost` has had the long-standing issue where values not specified in the given `.proto` files are dropped, on deserialisation.
 This project aims to be a more usable implementation of the currently-open MR implementing support for so-called "Unknown Fields", while staying compatible with recent versions.
+Versions are mapped to the same versions from prost, to keep converting easy.
 
 ## Unknown Fields
 
