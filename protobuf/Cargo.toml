@@ -6,12 +6,12 @@ edition.workspace = true
 authors.workspace = true
 
 [dependencies]
-prost = { path = "../prost" }
-prost-types = { path = "../prost-types" }
+prost-patched = { path = "../prost-patched" }
+prost-patched-types = { path = "../prost-patched-types" }
 
 [build-dependencies]
 anyhow = "1.0.1"
-prost-build = { path = "../prost-build" }
+prost-patched-build = { path = "../prost-patched-build" }
 tempfile = { version = "3", default-features = false }
 cmake = "0.1.51"
 

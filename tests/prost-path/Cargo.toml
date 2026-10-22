@@ -7,10 +7,10 @@ publish = false
 license = "MIT"
 
 [dependencies]
-reexported_prost = { path = "../reexported-prost" }
+reexported_prost_patched = { path = "../reexported-prost" }
 
 [build-dependencies]
-prost-build = { path = "../../prost-build" }
+prost-patched-build = { path = "../../prost-patched-build" }
 
 [package.metadata.cargo-machete]
 ignored = ["reexported_prost"]

@@ -7,10 +7,10 @@ publish = false
 [dependencies]
 
 [build-dependencies]
-prost-build = { path = "../prost-build" }
+prost-patched-build = { path = "../prost-patched-build" }
 
 [dev-dependencies]
-prost = { path = "../prost" }
+prost-patched = { path = "../prost-patched" }
 criterion = { version = "0.8", default-features = false }
 
 [lib]

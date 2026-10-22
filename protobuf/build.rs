@@ -195,7 +195,7 @@ fn compile_proto_files(out_dir: &Path, protobuf_dir: &Path) -> Result<()> {
     // Compile conformance.proto if it exists
     let conformance_dir = protobuf_src.join("conformance");
     if conformance_dir.exists() {
-        prost_build::Config::new()
+        prost_patched_build::Config::new()
             .protoc_executable(&protoc_executable)
             .compile_protos(
                 &[conformance_dir.join("conformance.proto")],
@@ -206,7 +206,7 @@ fn compile_proto_files(out_dir: &Path, protobuf_dir: &Path) -> Result<()> {
 
     // Compile test proto files with BTreeMap for consistent encoding
     let proto_dir = protobuf_src.join("src");
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .protoc_executable(&protoc_executable)
         .btree_map(["."])
         .include_unknown_fields(".", "unknown_fields_")

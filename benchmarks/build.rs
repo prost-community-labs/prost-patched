@@ -15,5 +15,5 @@ fn main() {
             .iter()
             .map(|proto| old_protobuf_benchmarks.join("datasets").join(proto)),
     );
-    prost_build::compile_protos(&benchmark_protos, &[old_protobuf_benchmarks]).unwrap();
+    prost_patched_build::compile_protos(&benchmark_protos, &[old_protobuf_benchmarks]).unwrap();
 }

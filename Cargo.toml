@@ -2,10 +2,10 @@
 members = [
   "benchmarks",
   "conformance",
-  "prost",
-  "prost-build",
-  "prost-derive",
-  "prost-types",
+  "prost-patched",
+  "prost-patched-build",
+  "prost-patched-derive",
+  "prost-patched-types",
   "protobuf",
   "tests",
   "tests-2015",
@@ -30,7 +30,7 @@ authors = [
   "Blizzard Finnegan <blizzardfinnegan@protonmail.com>",
 ]
 license = "Apache-2.0"
-repository = "https://github.com/tokio-rs/prost"
+repository = "https://github.com/prost-community-labs/prost-patched"
 rust-version = "1.85"
 edition = "2021"
 

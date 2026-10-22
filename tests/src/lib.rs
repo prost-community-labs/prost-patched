@@ -10,17 +10,17 @@ cfg_if! {
     if #[cfg(feature = "edition-2015")] {
         extern crate anyhow;
         extern crate core;
-        pub extern crate prost;
-        extern crate prost_types;
+        pub extern crate prost_patched;
+        extern crate prost_patched_types;
         extern crate protobuf;
         #[cfg(test)]
-        extern crate prost_build;
+        extern crate prost_patched_build;
         #[cfg(test)]
         extern crate tempfile;
     }
 }
 
-pub use prost as reexported_prost;
+pub use prost_patched as reexported_prost_patched;
 
 pub mod decode_error;
 pub mod extern_paths;
@@ -117,17 +117,17 @@ use core::fmt::Debug;
 use alloc::vec::Vec;
 
 use anyhow::anyhow;
-use prost::bytes::Buf;
+use prost_patched::bytes::Buf;
 
-use prost::Message;
+use prost_patched::Message;
 
 pub enum RoundtripResult {
     /// The roundtrip succeeded.
     Ok(Vec<u8>),
-    /// The data could not be decoded. This could indicate a bug in prost,
+    /// The data could not be decoded. This could indicate a bug in prost_patched,
     /// or it could indicate that the input was bogus.
-    DecodeError(prost::DecodeError),
-    /// Re-encoding or validating the data failed.  This indicates a bug in `prost`.
+    DecodeError(prost_patched::DecodeError),
+    /// Re-encoding or validating the data failed.  This indicates a bug in `prost_patched`.
     Error(anyhow::Error),
 }
 
@@ -144,7 +144,7 @@ impl RoundtripResult {
     }
 
     /// Unwrap the roundtrip result. Panics if the result was a validation or re-encoding error.
-    pub fn unwrap_error(self) -> Result<Vec<u8>, prost::DecodeError> {
+    pub fn unwrap_error(self) -> Result<Vec<u8>, prost_patched::DecodeError> {
         match self {
             RoundtripResult::Ok(buf) => Ok(buf),
             RoundtripResult::DecodeError(error) => Err(error),
@@ -308,7 +308,7 @@ mod tests {
         // Checks that skip_field will error appropriately when given a big stack of StartGroup
         // tags. When the no-recursion-limit feature is enabled this results in stack overflow.
         //
-        // https://github.com/tokio-rs/prost/issues/267
+        // https://github.com/tokio-rs/prost_patched/issues/267
         let buf = vec![b'C'; 1 << 20];
         <() as Message>::decode(&buf[..]).err().unwrap();
     }
@@ -317,6 +317,6 @@ mod tests {
     fn test_file_descriptor_set_path() {
         let file_descriptor_set_bytes =
             include_bytes!(concat!(env!("OUT_DIR"), "/file_descriptor_set.bin"));
-        prost_types::FileDescriptorSet::decode(&file_descriptor_set_bytes[..]).unwrap();
+        prost_patched_types::FileDescriptorSet::decode(&file_descriptor_set_bytes[..]).unwrap();
     }
 }

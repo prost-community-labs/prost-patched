@@ -19,15 +19,15 @@ std = []
 [dependencies]
 anyhow = "1.0.1"
 cfg-if = "1"
-prost = { path = "../prost" }
-prost-types = { path = "../prost-types" }
+prost-patched = { path = "../prost-patched" }
+prost-patched-types = { path = "../prost-patched-types" }
 protobuf = { path = "../protobuf" }
 
 [dev-dependencies]
-prost-build = { path = "../prost-build" }
+prost-patched-build = { path = "../prost-patched-build" }
 tempfile = { version = "3", default-features = false }
 
 [build-dependencies]
 cfg-if = "1"
 env_logger = { version = "0.11", default-features = false }
-prost-build = { path = "../prost-build" }
+prost-patched-build = { path = "../prost-patched-build" }

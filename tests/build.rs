@@ -4,7 +4,7 @@ extern crate cfg_if;
 cfg_if! {
     if #[cfg(feature = "edition-2015")] {
         extern crate env_logger;
-        extern crate prost_build;
+        extern crate prost_patched_build;
     }
 }
 
@@ -25,7 +25,7 @@ fn main() {
     // that encode/decode roundtrips can use encoded output for comparison. Otherwise trying to
     // compare based on the Rust PartialEq implementations is difficult, due to presence of NaN
     // values.
-    let mut config = prost_build::Config::new();
+    let mut config = prost_patched_build::Config::new();
     config.btree_map(["."]);
     config.type_attribute(
         "Foo.Custom.OneOfAttrs.Msg.field",
@@ -37,7 +37,7 @@ fn main() {
             .join("file_descriptor_set.bin"),
     );
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .btree_map(["."])
         // Tests for custom attributes
         .type_attribute(
@@ -51,16 +51,16 @@ fn main() {
         .compile_protos(&[src.join("ident_conversion.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .btree_map(["."])
         .compile_protos(&[src.join("nesting.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("recursive_oneof.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .type_attribute("custom_attributes.Msg", "#[allow(missing_docs)]")
         .type_attribute("custom_attributes.Msg.field", "/// Oneof docs")
         .type_attribute("custom_attributes.AnEnum", "#[allow(missing_docs)]")
@@ -84,7 +84,7 @@ fn main() {
         .compile_protos(&[src.join("no_unused_results.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("default_enum_value.proto")], includes)
         .unwrap();
 
@@ -92,7 +92,7 @@ fn main() {
         .compile_protos(&[src.join("enum_keyword_variant.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("groups.proto")], includes)
         .unwrap();
 
@@ -104,28 +104,28 @@ fn main() {
         .compile_protos(&[src.join("derive_eq.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("default_string_escape.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .skip_debug(["custom_debug.Msg"])
         .compile_protos(&[src.join("custom_debug.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("result_enum.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("result_struct.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("option_enum.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("option_struct.proto")], includes)
         .unwrap();
 
@@ -133,12 +133,12 @@ fn main() {
         .compile_protos(&[src.join("submessage_without_package.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .protoc_arg("--experimental_allow_proto3_optional")
         .compile_protos(&[src.join("proto3_presence.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .disable_comments(["."])
         .compile_protos(&[src.join("disable_comments.proto")], includes)
         .unwrap();
@@ -153,7 +153,7 @@ fn main() {
 
     std::fs::create_dir_all(&out_path).unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .bytes(["."])
         .out_dir(out_path)
         .include_file("wellknown_include.rs")
@@ -167,21 +167,21 @@ fn main() {
         )
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .enable_type_names()
         .type_name_domain([".type_names.Foo"], "tests")
         .type_name_domain([".type_names.Qux"], "tests-cumulative")
         .compile_protos(&[src.join("type_names.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .boxed("Foo.bar")
         .boxed("Foo.oneof_field.box_qux")
         .boxed("Foo.boxed_bar_list")
         .compile_protos(&[src.join("boxed_field.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .compile_protos(&[src.join("oneof_name_conflict.proto")], includes)
         .unwrap();
 
@@ -190,7 +190,7 @@ fn main() {
         .compile_protos(&[src.join("no_package.proto")], includes)
         .unwrap();
 
-    prost_build::Config::new()
+    prost_patched_build::Config::new()
         .include_unknown_fields(".unknown_fields", "unknown_fields_")
         .compile_protos(&[src.join("unknown_fields.proto")], includes)
         .unwrap();
@@ -201,7 +201,7 @@ fn main() {
     let no_root_packages = out_dir.as_path().join("no_root_packages");
 
     fs::create_dir_all(&no_root_packages).expect("failed to create prefix directory");
-    let mut no_root_packages_config = prost_build::Config::new();
+    let mut no_root_packages_config = prost_patched_build::Config::new();
     no_root_packages_config
         .out_dir(&no_root_packages)
         .default_package_filename("__.default")
@@ -216,7 +216,7 @@ fn main() {
     let no_root_packages_with_default = out_dir.as_path().join("no_root_packages_with_default");
 
     fs::create_dir_all(&no_root_packages_with_default).expect("failed to create prefix directory");
-    let mut no_root_packages_config = prost_build::Config::new();
+    let mut no_root_packages_config = prost_patched_build::Config::new();
     no_root_packages_config
         .out_dir(&no_root_packages_with_default)
         .compile_protos(

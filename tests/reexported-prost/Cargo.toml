@@ -1,5 +1,5 @@
 [package]
-name = "reexported_prost"
+name = "reexported_prost_patched"
 version = "0.1.0"
 authors = ["Jerko Steiner <jerko.steiner@gmail.com>"]
 edition = "2021"
@@ -7,8 +7,8 @@ publish = false
 license = "MIT"
 
 [dependencies]
-prost = { path = "../../prost" }
-prost-types = { path = "../../prost-types" }
+prost-patched = { path = "../../prost-patched" }
+prost-patched-types = { path = "../../prost-patched-types" }
 
 [build-dependencies]
-prost-build = { path = "../../prost-build" }
+prost-patched-build = { path = "../../prost-patched-build" }
