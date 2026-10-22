@@ -27,6 +27,7 @@ authors = [
   "Lucio Franco <luciofranco14@gmail.com>",
   "Casper Meijn <casper@meijn.net>",
   "Tokio Contributors <team@tokio.rs>",
+  "Blizzard Finnegan <blizzardfinnegan@protonmail.com>",
 ]
 license = "Apache-2.0"
 repository = "https://github.com/tokio-rs/prost"

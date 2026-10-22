@@ -3,9 +3,44 @@
 [![Documentation](https://docs.rs/prost/badge.svg)](https://docs.rs/prost/)
 [![Crate](https://img.shields.io/crates/v/prost.svg)](https://crates.io/crates/prost)
 [![Dependency Status](https://deps.rs/repo/github/tokio-rs/prost/status.svg)](https://deps.rs/repo/github/tokio-rs/prost)
-[![Discord](https://img.shields.io/discord/500028886025895936)](https://discord.gg/tokio)
 
-# *PROST!*
+# Prost-unknown-fields
+
+This crate is directly based upon the `prost` crate, maintained by `tokio`.
+`prost` has had the long-standing issue where values not specified in the given `.proto` files are dropped, on deserialisation.
+This project aims to be a more usable implementation of the currently-open MR implementing support for so-called "Unknown Fields", while staying compatible with recent versions.
+
+## Unknown Fields
+
+Protobuf's unknown fields are supported for round-trip consistency of messages. 
+See the [`prost-build` documentation][prost-build] for more details on generation.
+
+***IMPORTANT***: Note that unknown fields can potentially contain a Bytes object
+of undefined size. This violates compile-time size constraints, and thus means 
+that any and all objects generated with unknown fields support enabled cannot 
+implement the `Copy` trait.
+
+When using `prost`-generated objects that include unknown fields, all unknown 
+fields are stored in a field within the struct, whose name is set in the 
+`prost-build` build script. This field is recommended to be named `unknown_fields_`. 
+Protobuf style guide discourages underscores as the initial character in a 
+field or message, so this name limits potential collisions. If you are generating
+a new object of a type that has been marked as having unknown fields, note that 
+you will need to either import an existing `unknown_fields_` object, or use a 
+default constructor to your implementation, like so:
+```rust,ignore
+let val = MessageWithUnknownFields{
+  field_one: 1u32,
+  ..Default::default()
+};
+```
+This will initialise the `unknown_fields_` as empty, and allow the object to be 
+serialized correctly.
+
+
+Below is the original `prost` README, perserved for completeness.
+
+---
 
 `prost` is a [Protocol Buffers](https://protobuf.dev/)
 implementation for the [Rust Language](https://www.rust-lang.org/). `prost`
@@ -286,33 +321,6 @@ pub mod foo {
 `oneof` fields are always wrapped in an `Option`.
 
 [^3]: Annotations have been elided for clarity. See below for a full example.
-
-#### Unknown Fields
-
-Protobuf's unknown fields are supported for round-trip consistency of messages. 
-See the [`prost-build` documentation][prost-build] for more details on generation.
-
-***IMPORTANT***: Note that unknown fields can potentially contain a Bytes object
-of undefined size. This violates compile-time size constraints, and thus means 
-that any and all objects generated with unknown fields support enabled cannot 
-implement the `Copy` trait.
-
-When using `prost`-generated objects that include unknown fields, all unknown 
-fields are stored in a field within the struct, whose name is set in the 
-`prost-build` build script. This field is recommended to be named `unknown_fields_`. 
-Protobuf style guide discourages underscores as the initial character in a 
-field or message, so this name limits potential collisions. If you are generating
-a new object of a type that has been marked as having unknown fields, note that 
-you will need to either import an existing `unknown_fields_` object, or use a 
-default constructor to your implementation, like so:
-```rust,ignore
-let val = MessageWithUnknownFields{
-  field_one: 1u32,
-  ..Default::default()
-};
-```
-This will initialise the `unknown_fields_` as empty, and allow the object to be 
-serialized correctly.
 
 ### Services
 
